@@ -1,8 +1,10 @@
-# /stick — a Claude Code skill for making things actually stick
+# /stick — an agent skill for making things actually stick
 
-`/stick` is a [Claude Code](https://claude.com/claude-code) skill that turns any concept you
-want to learn into an active practice session instead of a reading session. It's built
-directly on the research summarized in *[Make It Stick: The Science of Successful
+`/stick` is an [Agent Skill](https://www.agensi.io/learn/agent-skills-open-standard) — a
+portable `SKILL.md` folder that works with any harness that supports the open Agent Skills
+format (Claude Code, Codex CLI, OpenCode, Cursor, Gemini CLI, and others). It turns any
+concept you want to learn into an active practice session instead of a reading session,
+built directly on the research summarized in *[Make It Stick: The Science of Successful
 Learning](https://www.hup.harvard.edu/books/9780674729018)* (Brown, Roediger, McDaniel,
 2014) — one of the most well-supported books on learning science, drawing on decades of
 cognitive psychology research on memory and retrieval.
@@ -24,7 +26,7 @@ sessions — the parts of learning science that are hardest to do alone.
 ## The science behind it
 
 Eight methods from the book, all implemented in the skill's behavior (see
-[`PRINCIPLES.md`](.claude/skills/stick/PRINCIPLES.md)):
+[`PRINCIPLES.md`](stick/PRINCIPLES.md)):
 
 1. **Retrieval practice** — recalling a fact strengthens memory far more than re-reading
    it. The struggle to retrieve *is* the learning event, not a test of it.
@@ -65,20 +67,36 @@ knowing"), feedback is immediate, and the difficulty is real.
 
 Progress and a running list of your weak points persist across sessions in `~/.stick/`, so
 each session picks up where the last one left off and interleaves due reviews with new
-material — see [`PROGRESS-FORMAT.md`](.claude/skills/stick/PROGRESS-FORMAT.md) and
-[`TEACHBACK.md`](.claude/skills/stick/TEACHBACK.md).
+material — see [`PROGRESS-FORMAT.md`](stick/PROGRESS-FORMAT.md) and
+[`TEACHBACK.md`](stick/TEACHBACK.md).
 
 ## Install
 
-Copy the `stick/` folder into your Claude Code skills directory:
+Clone the repo, then copy the `stick/` folder into whichever skills directory your harness
+uses:
 
 ```sh
 git clone https://github.com/rohithstarzz/stick.git
-cp -r stick/.claude/skills/stick ~/.claude/skills/stick
 ```
 
-Then invoke it with `/stick` in Claude Code, optionally naming a concept: `/stick recursion
-base cases`.
+| Harness | Skills directory |
+|---|---|
+| [Claude Code](https://claude.com/claude-code) | `~/.claude/skills/` (personal) or `.claude/skills/` (project) |
+| [Codex CLI](https://developers.openai.com/codex) | `.agents/skills/` (walks up from cwd to repo root) |
+| [OpenCode](https://opencode.ai) | see OpenCode's skills docs — directory has moved between versions |
+| Others supporting the Agent Skills standard | wherever that harness looks for `SKILL.md` folders |
+
+```sh
+# example for Claude Code
+cp -r stick/ ~/.claude/skills/stick
+```
+
+Then invoke it with `/stick` (naming convention may vary slightly by harness), optionally
+naming a concept: `/stick recursion base cases`.
+
+`SKILL.md`'s frontmatter includes a couple of Claude-Code-specific optional fields
+(`disable-model-invocation`, `argument-hint`); harnesses that don't recognize them should
+just ignore the unknown keys.
 
 ## Why this fits a coding agent well
 
