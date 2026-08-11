@@ -6,21 +6,25 @@ this is where sticking is measured.
 
 ## The transcript pipeline
 
-- `C:\Users\Rohith\Videos\subtitle_watcher.py` transcribes videos in
-  `C:\Users\Rohith\Videos\` to a `<same-name>.srt` beside each one (faster-whisper
-  `large-v3`, CUDA). It **keeps filler words on purpose** (um, uh, like, basically…) — those
-  are graded signal for spoken explanation, so don't discard them.
-- **Before sending the user off to record, confirm the pipeline is live.** It normally runs
-  as a scheduled task `AutoSubtitleWatcher`, but that task may be unregistered — then nothing
-  transcribes automatically and a recording produces no `.srt`. Check with
-  `schtasks /query /tn AutoSubtitleWatcher` (or just whether recent videos have matching
-  `.srt`). If it's off: fall back to written free-recall, or transcribe once on demand —
-  `python "C:\Users\Rohith\Videos\subtitle_watcher.py" --process-existing` in the background,
-  wait for the sidecar, then stop it. Never write your own transcriber.
-- To read a transcript: newest recording `ls -t "/c/Users/Rohith/Videos/"*.srt | head -1`
-  (or let the user name it), then strip the index and timestamp lines, keep the text.
+Spoken teach-back needs *some* way to turn a recording into text. This skill doesn't ship a
+transcriber — it expects you to point it at whatever pipeline you already have (a watcher
+script, a local Whisper install, a cloud transcription API, even a manual "paste the
+transcript" step). Adapt this section to your own setup:
+
+- **Where recordings land and where transcripts appear.** Note the folder (or watch
+  mechanism) you use, and what the transcript looks like once it's produced (e.g. a
+  `<same-name>.srt` beside the recording).
+- **Keep filler words on purpose** (um, uh, like, basically…) if your pipeline strips them by
+  default — they're graded signal for spoken explanation, not noise.
+- **Before sending the user off to record, confirm the pipeline is live** (check the watcher
+  process/scheduled task is running, or that recent recordings have matching transcripts).
+  If it's off: fall back to written free-recall, or transcribe once on demand rather than
+  leaving the user to record into a dead pipeline. Never write your own transcriber.
+- To read a transcript: find the newest one for the recording just made (or let the user
+  name the file), then strip index/timestamp lines and keep the text.
 - **Handshake, don't poll blindly:** have the user record, then say "done" when it's saved;
-  only then look for the `.srt`. If it isn't there, transcribe on demand or switch to written.
+  only then look for the transcript. If it isn't there, transcribe on demand or switch to
+  written.
 
 ## Modalities
 
@@ -36,8 +40,8 @@ opt-in, not the default.
 0. **Pre-flight:** confirm the transcript pipeline is live (above). If it's off and the user
    doesn't want to enable it, use written free-recall — never send them to record into a
    dead pipeline.
-1. Have the user record themselves explaining `<concept>` (OBS → Videos folder), then say
-   "done". Generation-first: no notes, no reveal beforehand.
+1. Have the user record themselves explaining `<concept>` with whatever recorder feeds their
+   pipeline, then say "done". Generation-first: no notes, no reveal beforehand.
 2. Read the newest `.srt`. Grade against ground truth (see Grading).
 3. Report filler-word rate and any hedge-heavy passages — those mark the spots they don't
    actually know, even when the fact is technically present.
