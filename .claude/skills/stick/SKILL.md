@@ -75,9 +75,9 @@ A page the user will reopen has to hold up on the second look. Keep it lazy but 
   screen. The user returns to review, so legibility beats cleverness.
 - **State is visible** — score, streak, and what's due should be on the page, not just in
   chat, so the file stands alone when reopened.
-- Reuse `/mental-model`'s dark palette so saved artifacts feel like one family: bg `#0a0e14`,
-  panel `#121822`, ink `#e8edf4`, muted `#8a97a8`, accent `#4dd6c4`, warn `#ff6b6b`, gold
-  `#f5c542`. System font stack only. Respect `prefers-reduced-motion`.
+- Use a consistent dark palette across saved artifacts so they feel like one family: bg
+  `#0a0e14`, panel `#121822`, ink `#e8edf4`, muted `#8a97a8`, accent `#4dd6c4`, warn
+  `#ff6b6b`, gold `#f5c542`. System font stack only. Respect `prefers-reduced-motion`.
 - **Save to `~/.stick/artifacts/`** with a numbered name `0001-<dash-case>.html`,
   incrementing, and note it in `stick-progress.md` — so pages stay findable instead of
   piling up loose in the cwd.
